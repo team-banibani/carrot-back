@@ -9,7 +9,7 @@ class RecommendedLocation(Base):
     __tablename__ = "recommended_location"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    plant_id: Mapped[str] = mapped_column(String(36), ForeignKey("plant.id"))
+    plant_id: Mapped[str] = mapped_column(String(10), ForeignKey("plant_info.id"))
     location: Mapped[LocationEnum] = mapped_column(Enum(LocationEnum))
 
     plant: Mapped["Plant"] = relationship("Plant", back_populates="recommended_locations")

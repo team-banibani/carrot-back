@@ -2,10 +2,10 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from models.categories import Categories
 from models.environment_type import EnvironmentType
-from models.enums import FitEnum
+from models.enums import CategoryLevelEnum
 from models.plant import Plant
-from models.plant_environment import PlantEnvironment
 
 
 async def get_plants(db: AsyncSession) -> list[Plant]:
@@ -25,13 +25,13 @@ async def get_plants_by_env_type(
         return None, [], []
 
     mapping_result = await db.execute(
-        select(PlantEnvironment)
-        .options(selectinload(PlantEnvironment.plant))
-        .where(PlantEnvironment.env_type_id == env_type_id)
+        select(Categories)
+        .options(selectinload(Categories.plant))
+        .where(Categories.env_type_id == env_type_id)
     )
     mappings = list(mapping_result.scalars().all())
 
-    optimal = [m.plant for m in mappings if m.fit == FitEnum.OPTIMAL]
-    possible = [m.plant for m in mappings if m.fit == FitEnum.POSSIBLE]
+    optimal = [m.plant for m in mappings if m.level == CategoryLevelEnum.OPTIMAL]
+    possible = [m.plant for m in mappings if m.level == CategoryLevelEnum.POSSIBLE]
 
     return env_type, optimal, possible

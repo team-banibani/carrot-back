@@ -8,16 +8,13 @@ from models.enums import HumidityEnum, SunlightEnum, TemperatureEnum, Ventilatio
 class EnvironmentType(Base):
     __tablename__ = "environment_type"
 
-    id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    name: Mapped[str] = mapped_column(String(100))
+    id: Mapped[str] = mapped_column(String(10), primary_key=True)  # ENV-01 ~ ENV-09
+    name: Mapped[str] = mapped_column(String(50))
     sunlight: Mapped[SunlightEnum] = mapped_column(Enum(SunlightEnum))
     ventilation: Mapped[VentilationEnum] = mapped_column(Enum(VentilationEnum))
     temperature: Mapped[TemperatureEnum] = mapped_column(Enum(TemperatureEnum))
     humidity: Mapped[HumidityEnum] = mapped_column(Enum(HumidityEnum))
     explanation: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
-    plants: Mapped[list["Plant"]] = relationship("Plant", back_populates="environment_type")
+    categories: Mapped[list["Categories"]] = relationship("Categories", back_populates="environment_type")
     mappings: Mapped[list["Mapping"]] = relationship("Mapping", back_populates="environment_type")
-    plant_environments: Mapped[list["PlantEnvironment"]] = relationship(
-        "PlantEnvironment", back_populates="environment_type"
-    )

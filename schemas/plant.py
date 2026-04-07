@@ -2,13 +2,10 @@ from pydantic import BaseModel
 
 from models.enums import (
     AirPurificationEnum,
-    HumidityEnum,
     ManagementDifficultyEnum,
     PetStabilityEnum,
     SizeEnum,
-    SunlightEnum,
-    TemperatureEnum,
-    WateringEnum,
+    SunlightRequirementsEnum,
 )
 
 
@@ -19,10 +16,10 @@ class PlantResponse(BaseModel):
     name_ko: str
     name_en: str
     management_difficulty: ManagementDifficultyEnum
-    watering: WateringEnum
-    appropriate_temperature: TemperatureEnum
-    appropriate_humidity: HumidityEnum
-    sunlight_requirements: SunlightEnum
+    watering: str
+    appropriate_temperature: str
+    appropriate_humidity: str
+    sunlight_requirements: SunlightRequirementsEnum
     size: SizeEnum
     air_purification_effect: AirPurificationEnum
     pet_stability: PetStabilityEnum

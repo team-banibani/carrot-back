@@ -3,3 +3,6 @@ uvicorn[standard]
 sqlalchemy[asyncio]
 aiomysql
 pydantic-settings
+openai
+python-multipart
+python-dotenv

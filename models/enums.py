@@ -62,3 +62,8 @@ class LocationEnum(str, enum.Enum):
     OFFICE = "OFFICE"
     BALCONY = "BALCONY"
     OUTDOOR = "OUTDOOR"
+
+
+class FitEnum(str, enum.Enum):
+    OPTIMAL = "optimal"
+    POSSIBLE = "possible"

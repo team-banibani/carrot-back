@@ -18,3 +18,6 @@ class EnvironmentType(Base):
 
     plants: Mapped[list["Plant"]] = relationship("Plant", back_populates="environment_type")
     mappings: Mapped[list["Mapping"]] = relationship("Mapping", back_populates="environment_type")
+    plant_environments: Mapped[list["PlantEnvironment"]] = relationship(
+        "PlantEnvironment", back_populates="environment_type"
+    )

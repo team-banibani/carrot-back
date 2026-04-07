@@ -35,3 +35,6 @@ class Plant(Base):
     recommended_locations: Mapped[list["RecommendedLocation"]] = relationship(
         "RecommendedLocation", back_populates="plant"
     )
+    plant_environments: Mapped[list["PlantEnvironment"]] = relationship(
+        "PlantEnvironment", back_populates="plant"
+    )

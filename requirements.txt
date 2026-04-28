@@ -1,7 +1,9 @@
 fastapi
 uvicorn[standard]
 sqlalchemy[asyncio]
+greenlet
 aiomysql
+cryptography
 pydantic-settings
 openai
 python-multipart

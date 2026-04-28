@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from schemas.environment_diagnosis import EnvironmentDiagnosisRequest, EnvironmentDiagnosisResponse
+from schemas.environment_diagnosis import EnvironmentDiagnosisRequest, EnvironmentDiagnosisResponse, SUNLIGHT_INPUT_MAP
 from services.environment_diagnosis_convert_service import EnvironmentDiagnosisConvertService
 from services.environment_diagnosis_service import EnvironmentDiagnosisService
 from db.session import get_db
@@ -28,10 +28,11 @@ async def diagnose_environment(
         humidity_value = convert_service.parse_humidity(request.humidity)
         temperature_enum = convert_service.convert_temperature(request.temperature)
         humidity_enum = convert_service.convert_humidity(humidity_value)
+        sunlight_enum = SUNLIGHT_INPUT_MAP[request.sunlight]
 
         environment_id = await diagnosis_service.diagnose_environment_id(
             session=session,
-            sunlight=request.sunlight,
+            sunlight=sunlight_enum,
             temperature=temperature_enum,
             humidity=humidity_enum,
         )

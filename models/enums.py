@@ -57,6 +57,7 @@ class SunlightRequirementsEnum(str, enum.Enum):
 
 
 class SizeEnum(str, enum.Enum):
+    """플랜테 식물의 크기"""
     SMALL = "소형"
     SMALL_MEDIUM = "소형~중형"
     MEDIUM = "중형"
@@ -111,3 +112,14 @@ class CategoryLevelEnum(str, enum.Enum):
     """유형별 추천 매트릭스 적합도"""
     OPTIMAL = "O"    # 최적
     POSSIBLE = "△"   # 가능
+
+
+class StyleEnum(str, enum.Enum):
+    """공간 스타일"""
+    MINIMAL = "MINIMAL"
+    MODERN = "MODERN"
+    NATURAL = "NATURAL"
+    BOHO = "BOHO"
+    WARM = "WARM"
+    VINTAGE = "VINTAGE"
+

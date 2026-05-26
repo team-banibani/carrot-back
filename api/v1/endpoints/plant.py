@@ -40,8 +40,6 @@ async def recommend_plants(env_type_id: str, db: DbDep):
 @router.get("/{plant_id}", response_model=PlantResponse)
 async def get_plant_detail(plant_id: str, db: DbDep):
     plant = await get_plant(db, plant_id)
-
     if plant is None:
-        raise HTTPException(status_code=404, detail=f"식물 '{plant_id}'을 찾을 수 없습니다.")
-
+        raise HTTPException(status_code=404, detail=f"식물 ID '{plant_id}'을 찾을 수 없습니다.")
     return plant

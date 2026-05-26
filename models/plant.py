@@ -27,6 +27,7 @@ class Plant(Base):
     pet_stability: Mapped[PetStabilityEnum] = mapped_column(Enum(PetStabilityEnum))
     explanation: Mapped[str | None] = mapped_column(String(500), nullable=True)
     view_count: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    image_path: Mapped[str | None] = mapped_column(String(1024), nullable=True)
 
     categories: Mapped[list["Categories"]] = relationship("Categories", back_populates="plant")
     recommended_locations: Mapped[list["RecommendedLocation"]] = relationship(

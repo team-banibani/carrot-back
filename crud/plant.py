@@ -8,8 +8,10 @@ from models.enums import CategoryLevelEnum
 from models.plant import Plant
 
 
-async def get_plants(db: AsyncSession, sort_by_views: bool = False) -> list[Plant]:
-    stmt = select(Plant)
+async def get_plants(
+    db: AsyncSession, sort_by_views: bool = False, skip: int = 0, limit: int = 100
+) -> list[Plant]:
+    stmt = select(Plant).offset(skip).limit(limit)
     if sort_by_views:
         stmt = stmt.order_by(Plant.view_count.desc())
     result = await db.execute(stmt)
@@ -17,6 +19,12 @@ async def get_plants(db: AsyncSession, sort_by_views: bool = False) -> list[Plan
 
 
 async def get_plant(db: AsyncSession, plant_id: str) -> Plant | None:
+    result = await db.execute(select(Plant).where(Plant.id == plant_id))
+    plant = result.scalar_one_or_none()
+
+    if plant is None:
+        return None
+
     await db.execute(
         update(Plant)
         .where(Plant.id == plant_id)
@@ -24,8 +32,7 @@ async def get_plant(db: AsyncSession, plant_id: str) -> Plant | None:
     )
     await db.commit()
 
-    result = await db.execute(select(Plant).where(Plant.id == plant_id))
-    return result.scalar_one_or_none()
+    return plant
 
 
 async def get_plants_by_env_type(

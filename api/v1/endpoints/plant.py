@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -13,9 +13,13 @@ DbDep = Annotated[AsyncSession, Depends(get_db)]
 
 
 @router.get("", response_model=list[PlantResponse])
-async def list_plants(db: DbDep, sort_by: str | None = None):
-    sort_by_views = sort_by == "views"
-    plants = await get_plants(db, sort_by_views=sort_by_views)
+async def list_plants(
+    db: DbDep,
+    sort_by: Literal["views"] | None = None,
+    skip: int = 0,
+    limit: int = 100,
+):
+    plants = await get_plants(db, sort_by_views=sort_by == "views", skip=skip, limit=limit)
     return plants
 
 

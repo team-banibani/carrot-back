@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from crud.plant import get_plants, get_plants_by_env_type
+from crud.plant import get_plants, get_plants_by_env_type, get_plant
 from db.session import get_db
 from schemas.plant import PlantRecommendResponse, PlantResponse
 
@@ -30,3 +30,12 @@ async def recommend_plants(env_type_id: str, db: DbDep):
         optimal=optimal,
         possible=possible,
     )
+
+
+@router.get("/{plant_id}", response_model=PlantResponse)
+async def get_plant_detail(plant_id: str, db: DbDep):
+    plant = await get_plant(db, plant_id)
+    if plant is None:
+        raise HTTPException(status_code=404, detail=f"식물 ID '{plant_id}'을 찾을 수 없습니다.")
+    return plant
+

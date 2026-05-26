@@ -35,3 +35,9 @@ async def get_plants_by_env_type(
     possible = [m.plant for m in mappings if m.level == CategoryLevelEnum.POSSIBLE]
 
     return env_type, optimal, possible
+
+
+async def get_plant(db: AsyncSession, plant_id: str) -> Plant | None:
+    result = await db.execute(select(Plant).where(Plant.id == plant_id))
+    return result.scalar_one_or_none()
+

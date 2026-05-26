@@ -1,9 +1,9 @@
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from crud.plant import get_plants, get_plants_by_env_type, get_plant
+from crud.plant import get_plant, get_plants, get_plants_by_env_type
 from db.session import get_db
 from schemas.plant import PlantRecommendResponse, PlantResponse
 
@@ -13,8 +13,13 @@ DbDep = Annotated[AsyncSession, Depends(get_db)]
 
 
 @router.get("", response_model=list[PlantResponse])
-async def list_plants(db: DbDep):
-    plants = await get_plants(db)
+async def list_plants(
+    db: DbDep,
+    sort_by: Literal["views"] | None = None,
+    skip: int = 0,
+    limit: int = 100,
+):
+    plants = await get_plants(db, sort_by_views=sort_by == "views", skip=skip, limit=limit)
     return plants
 
 
@@ -38,4 +43,3 @@ async def get_plant_detail(plant_id: str, db: DbDep):
     if plant is None:
         raise HTTPException(status_code=404, detail=f"식물 ID '{plant_id}'을 찾을 수 없습니다.")
     return plant
-

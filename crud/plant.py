@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -8,9 +8,31 @@ from models.enums import CategoryLevelEnum
 from models.plant import Plant
 
 
-async def get_plants(db: AsyncSession) -> list[Plant]:
-    result = await db.execute(select(Plant))
+async def get_plants(
+    db: AsyncSession, sort_by_views: bool = False, skip: int = 0, limit: int = 100
+) -> list[Plant]:
+    stmt = select(Plant).offset(skip).limit(limit)
+    if sort_by_views:
+        stmt = stmt.order_by(Plant.view_count.desc())
+    result = await db.execute(stmt)
     return list(result.scalars().all())
+
+
+async def get_plant(db: AsyncSession, plant_id: str) -> Plant | None:
+    result = await db.execute(select(Plant).where(Plant.id == plant_id))
+    plant = result.scalar_one_or_none()
+
+    if plant is None:
+        return None
+
+    await db.execute(
+        update(Plant)
+        .where(Plant.id == plant_id)
+        .values(view_count=Plant.view_count + 1)
+    )
+    await db.commit()
+
+    return plant
 
 
 async def get_plants_by_env_type(
@@ -35,9 +57,3 @@ async def get_plants_by_env_type(
     possible = [m.plant for m in mappings if m.level == CategoryLevelEnum.POSSIBLE]
 
     return env_type, optimal, possible
-
-
-async def get_plant(db: AsyncSession, plant_id: str) -> Plant | None:
-    result = await db.execute(select(Plant).where(Plant.id == plant_id))
-    return result.scalar_one_or_none()
-

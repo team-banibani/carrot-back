@@ -24,6 +24,7 @@ class PlantResponse(BaseModel):
     air_purification_effect: AirPurificationEnum
     pet_stability: PetStabilityEnum
     explanation: str | None = None
+    view_count: int = 0
     image_path: str | None = None
 
 

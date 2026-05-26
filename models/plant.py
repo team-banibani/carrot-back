@@ -1,6 +1,5 @@
-from sqlalchemy import Enum, String
+from sqlalchemy import Enum, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from typing import Optional
 
 from db.base import Base
 from models.enums import (
@@ -27,7 +26,8 @@ class Plant(Base):
     air_purification_effect: Mapped[AirPurificationEnum] = mapped_column(Enum(AirPurificationEnum))
     pet_stability: Mapped[PetStabilityEnum] = mapped_column(Enum(PetStabilityEnum))
     explanation: Mapped[str | None] = mapped_column(String(500), nullable=True)
-    image_path: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    view_count: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    image_path: Mapped[str | None] = mapped_column(String(1024), nullable=True)
 
     categories: Mapped[list["Categories"]] = relationship("Categories", back_populates="plant")
     recommended_locations: Mapped[list["RecommendedLocation"]] = relationship(

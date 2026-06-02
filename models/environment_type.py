@@ -10,10 +10,10 @@ class EnvironmentType(Base):
 
     id: Mapped[str] = mapped_column(String(10), primary_key=True)  # ENV-01 ~ ENV-09
     name: Mapped[str] = mapped_column(String(50))
-    sunlight: Mapped[SunlightEnum] = mapped_column(Enum(SunlightEnum))
-    ventilation: Mapped[VentilationEnum] = mapped_column(Enum(VentilationEnum))
-    temperature: Mapped[TemperatureEnum] = mapped_column(Enum(TemperatureEnum))
-    humidity: Mapped[HumidityEnum] = mapped_column(Enum(HumidityEnum))
+    sunlight: Mapped[SunlightEnum] = mapped_column(Enum(SunlightEnum, name="sunlight_condition", create_type=False))
+    ventilation: Mapped[VentilationEnum] = mapped_column(Enum(VentilationEnum, name="ventilation_condition", create_type=False))
+    temperature: Mapped[TemperatureEnum] = mapped_column(Enum(TemperatureEnum, name="temperature_condition", create_type=False))
+    humidity: Mapped[HumidityEnum] = mapped_column(Enum(HumidityEnum, name="humidity_condition", create_type=False))
     explanation: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     categories: Mapped[list["Categories"]] = relationship("Categories", back_populates="environment_type")

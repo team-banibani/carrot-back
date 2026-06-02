@@ -11,7 +11,7 @@ class Categories(Base):
 
     plant_id: Mapped[str] = mapped_column(String(10), ForeignKey("plant_info.id"), primary_key=True)
     env_type_id: Mapped[str] = mapped_column(String(10), ForeignKey("environment_type.id"), primary_key=True)
-    level: Mapped[CategoryLevelEnum] = mapped_column(Enum(CategoryLevelEnum))  # O=최적, △=가능
+    level: Mapped[CategoryLevelEnum] = mapped_column(Enum(CategoryLevelEnum, name="category_level", create_type=False))  # O=최적, △=가능
 
     plant: Mapped["Plant"] = relationship("Plant", back_populates="categories")
     environment_type: Mapped["EnvironmentType"] = relationship("EnvironmentType", back_populates="categories")

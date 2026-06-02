@@ -45,9 +45,9 @@ class ImageAnalysisService:
             "아래 형식의 JSON 객체만 반환하세요. 설명/마크다운/코드블록은 금지합니다.\n"
             "{\n"
             '  "style": "MINIMAL|MODERN|NATURAL|BOHO|WARM|VINTAGE",\n'
-            '  "sunlight": "매우 높음|보통~높음|중간|보통|보통~낮음|낮음|매우 낮음",\n'
-            '  "size": "소형|소형~중형|중형|중형~대형|대형",\n'
-            '  "place": "거실|침실|서재|주방|욕실|복도|현관|베란다|발코니|로비|선반|책상|행잉|사무실|실내 안쪽"\n'
+            '  "sunlight": "VERY_HIGH|HIGH|MEDIUM|NORMAL|LOW_MEDIUM|LOW|VERY_LOW",\n'
+            '  "size": "SMALL|SMALL_MEDIUM|MEDIUM|MEDIUM_LARGE|LARGE",\n'
+            '  "place": "LIVING_ROOM|BEDROOM|STUDY|KITCHEN|BATHROOM|HALLWAY|ENTRANCE|VERANDA|BALCONY|LOBBY|SHELF|DESK|HANGING|OFFICE|INDOOR_INNER"\n'
             "}"
         )
 

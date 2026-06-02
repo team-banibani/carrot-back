@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_serializer
 from models.enums import StyleEnum, SunlightEnum, SizeEnum, LocationEnum
 
 
@@ -9,3 +9,6 @@ class ImageAnalysisResponse(BaseModel):
     size: SizeEnum
     place: LocationEnum
 
+    @field_serializer("style", "sunlight", "size", "place")
+    def serialize_enum_label(self, val) -> str:
+        return val.label

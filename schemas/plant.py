@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_serializer
 
 from models.enums import (
     AirPurificationEnum,
@@ -26,6 +26,10 @@ class PlantResponse(BaseModel):
     explanation: str | None = None
     view_count: int = 0
     image_path: str | None = None
+
+    @field_serializer("management_difficulty", "sunlight_requirements", "size", "air_purification_effect", "pet_stability")
+    def serialize_enum_label(self, val) -> str:
+        return val.label
 
 
 class EnvironmentTypeSimple(BaseModel):
